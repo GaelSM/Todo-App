@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+
+:root{
+  --White: hsl(0, 0%, 100%);
+  ---Bright-Blue: hsl(220, 98%, 61%);
+}
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+[scheme = "white"]{
+  --Header-Background: url("./assets/bg-desktop-light.jpg");
+  --Body-Background: hsl(0, 0%, 98%);
+  --Box-Background: hsl(0, 0%, 100%);
+  --Complete: hsl(236, 33%, 92%);
+  --Border: hsl(233, 11%, 84%);
+  --Dark-Grayish-Blue: hsl(236, 9%, 61%);
+  --Paragraph-Color: hsl(235, 19%, 35%);
+  --Box-Shadow: rgba(0, 0, 0, 0.2);
+}
+
+[scheme = "black"]{
+  --Header-Background: url("./assets/bg-desktop-dark.jpg");
+  --Body-Background: hsl(235, 21%, 11%);
+  --Box-Background: hsl(235, 24%, 19%);
+  --Paragraph-Color: hsl(234, 39%, 85%);
+  --Light-Grayish-Blue: hsl(236, 33%, 92%); /* HOVER */
+  --Dark-Grayish-Blue: hsl(234, 11%, 52%);
+  --Complete: hsl(233, 14%, 35%);
+  --Border: hsl(237, 14%, 26%);
+  --Box-Shadow: rgba(0, 0, 0, 0.4);
+}
+
+*{
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  height: auto;
+  font-family: 'Josefin Sans', sans-serif;
+  padding-bottom: 20px;
+  background-color: var(--Body-Background);
+  transition: background .3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+input, button{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-family: 'Josefin Sans', sans-serif;
+  color: var(--Paragraph-Color);
+  &::placeholder{
+    color: var(--Dark-Grayish-Blue);
+  }
+}
+
+p{
+  color: var(--Paragraph-Color);
+}
+
+.checkbox{
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--Border);
+  transition: background .1s ease, border .3s ease;
+  background: transparent;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover{
+    border: 1px solid var(--Paragraph-Color);
+  }
+
+  &:has(input:checked), &.completed{
+    background-image: url("./assets/icon-check.svg"), 
+    linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+  }
+  
+  & input{
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+header{
+  padding-top: 75px;
+  width: 100vw;
+  height: 300px;
+  background-image: var(--Header-Background);
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  transition: background .3s ease;
+
+  & div{
+    width: 40vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & h1{
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      color: var(--White);
+      letter-spacing: .7rem;
+    }
+
+    & img{
+      cursor: pointer;
+    }
+  }
+
+  & form{
+    gap: 1.5rem;
+    width: 540px;
+    height: 64px;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    border-radius: .5rem;
+    background-color: var(--Box-Background);
+
+    & input{
+      height: 100%;
+      font-size: 18px;
+    }
+  }
+}
+
+main{
+  display: flex;
+  justify-content: center;
+
+  .container{
+    width: 540px;
+    transform: translateY(-3rem);
+    box-shadow: 0 0 1rem var(--Box-Shadow);
+    background-color: var(--Box-Background);
+    border-radius: .5rem;
+    top: -3.5rem;
+
+    & section{
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      & p{
+        font-size: .9rem;
+        transition: color .3s ease;
+        color: var(--Dark-Grayish-Blue);
+        &.active{
+          color: var(---Bright-Blue);
+        }
+      }
+
+      & .clear:hover{
+        cursor: pointer;
+        color: var(--Paragraph-Color);
+      }
+
+      & .filters{
+        font-weight: 700;
+        display: flex;
+        gap: 1rem;
+
+        & p:hover{
+          cursor: pointer;
+          color: var(--Paragraph-Color);
+        }
+      }
+    }
+  }
+}
+
+.task-container{
+  max-height: 384px;
+  overflow: hidden;
+  overflow-y: visible;
+
+  &::-webkit-scrollbar{
+    display: none;
+  }
+
+  & li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--Border);
+    height: 3rem;
+    padding: 0 1.5rem;
+
+    &:hover{
+      & .delete{
+        cursor: pointer;
+        opacity: 1;
+      }
+    }
+
+    & .delete{
+      opacity: 0;
+    }
+
+    & .left{
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+
+      & p{
+        font-size: 18px;
+        transition: text-decoration 1s ease;
+      }
+
+      & .completed ~ p{
+        text-decoration: line-through;
+        color: var(--Complete);
+      }
+    }
+    
+  }
+}
+
+@media (max-width: 700px) {
+  [scheme = "white"]{
+    --Header-Background: url("./assets/bg-mobile-light.jpg");
+  }
+
+  [scheme = "black"]{
+    --Header-Background: url("./assets/bg-mobile-dark.jpg");
+  }
+
+  .checkbox{
+    width: 20px;
+    height: 20px;
+  }
+
+  header{
+    height: 200px;
+    padding-top: 2rem;
+    gap: 2rem;
+    & div{
+      width: 330px;
+
+      & h1{
+        font-size: 2rem;
+      }
+    }
+    & form{
+      gap: .5rem;
+      width: 330px;
+      height: 48px;
+
+      & input{
+        font-size: .9rem;
+      }
+    }
+  }
+
+  main {
+    .container{
+      width: 330px;
+      transform: translateY(-2rem);
+    }
+  }
+
+  .task-container{
+    position: relative;
+    & li{
+
+      & .left{
+        gap: .5rem;
+        & P{
+          font-size: .9rem;
+        }
+      }
+
+      & .delete{
+        opacity: 1;
+        & img{
+          width: .8rem;
+          height: .8rem;
+        }
+      }
+    }
+  }
+
+  .filters{
+    width: 100%;
+    height: 3rem;
+    position: absolute;
+    left: 0;
+    bottom: -4rem;
+    background-color: var(--Box-Background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5rem;
+    box-shadow: 0 0 .5rem var(--Box-Shadow);
+  }
+}
